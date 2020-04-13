@@ -1,15 +1,6 @@
 from ConfigParser import SafeConfigParser
 import requests
-
-# parser = SafeConfigParser()
-# parser.read('config.cfg')
-
-# print (parser.get('creds', 'access_token'))
-
-# parser.set('creds', 'token_type', 'Bull')
-
-
-# print (parser.get('creds', 'token_type'))
+import call
 
 
 def replace_values(access_token, api_server, refresh_token, token_type):
@@ -19,22 +10,25 @@ def replace_values(access_token, api_server, refresh_token, token_type):
     parser.set('creds', 'api_server', api_server)
     parser.set('creds', 'refresh_token', refresh_token)
     parser.set('creds', 'token_type', token_type)
+    parser.set('creds', 'id', call.id_)
     with open('config.cfg', 'wb') as configfile:
         parser.write(configfile)
 
-
-def refresh_key(refresh_token):
+def activate_refresh_key(refresh_token):
     refresh_server = "https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token="
     uri = refresh_server + refresh_token
     r = requests.get(uri)
     response = r.json()
-    return response
+    new_access_token = response['access_token']
+    new_api_server = response['api_server']
+    new_refresh_token = response['refresh_token']
+    new_token_type = response['token_type']
+    replace_values(new_access_token, new_api_server, new_refresh_token, new_token_type)
+    send_email()
 
-test = refresh_key('9ATvv94QtXUbzwSF8U-ryLUdM38dbgGN0')
+def send_email():
+    print("email sent")
 
-print(test)
-print("ACCESS TOKEN - ")
-print(test['access_token'])
-print("SERVER - ")
-print(test['api_server'])
-
+config = SafeConfigParser()
+config.read('config.cfg')
+current_refresh_token = config.get('creds', 'refresh_token')
