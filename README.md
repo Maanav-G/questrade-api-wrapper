@@ -1,6 +1,8 @@
 # Questrade API Wrapper
 
-This is a custom Python wrapper for the [Questrade API](https://www.questrade.com/api/documentation/getting-started) that I built this to analyze and retrive key information from my personal Questrade Trading Account.
+This is a custom Python wrapper for the [Questrade API](https://www.questrade.com/api/documentation/getting-started) that I built to analyze and retrieve key information from my personal Questrade Trading Account.
+
+Currently this project is in its infancy - Stay tuned for future updates.
 
 ## Functions
 
@@ -28,4 +30,3 @@ Currently it supports the following functions:
 - Design and implement an aesthetically pleasing UI 
 - Add plotting functions for pie graphs, line graphs, stacked graphs, etc.
 - Host an interactive version on a web app connected to a mock/practice account
-
