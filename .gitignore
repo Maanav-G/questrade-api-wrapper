@@ -1,2 +1,2 @@
-./questrade-wrapper/info/*
-./*/*.pyc
+questrade-wrapper/info/*
+*/*.pyc
