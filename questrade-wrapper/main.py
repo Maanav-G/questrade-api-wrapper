@@ -1,5 +1,6 @@
 import call
 import refresh
+import summary
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
@@ -160,6 +161,12 @@ def get_exchange_rate(base):
     USD_CAD = EUR_CAD/EUR_base
     return USD_CAD
 
+def portfolio():
+    assets = get_asset_information()[0]
+    for asset in assets:
+        print("-----------------")
+        summary.print_info(asset)
+
 
 
 n = len(sys.argv)
@@ -168,70 +175,20 @@ for i in range(0, n):
     arg_arr.append(sys.argv[i])
     
 
-# if __name__ == '__main__':
-#     try:
-#         if len(sys.argv) == 4:
-#             print(globals()[sys.argv[1]](sys.argv[2], sys.argv[2]))
-#         elif len(sys.argv) == 3:
-#             print(globals()[sys.argv[1]](sys.argv[2]))
-#         elif len(sys.argv) == 2:
-#             if sys.argv[1] == 'refresh':
-#                 refresh.activate_refresh_key()
-#             else:
-#                 print(globals()[sys.argv[1]]())
-#         else:
-#             print("ERROR - No valid argument given, please choose one of the following:")
-#             calls()
-#     except:
-#         print("ERROR - Invalid argument given, please choose one of the following:")
-#         calls()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def plot_asset_allocation(type_):
-#     array = get_asset_information()
-#     if(type_ == 'position'):
-#         labels = array[0]
-#         sizes = array[1]
-#         explode = []
-#         colors = []
-#         i = 0
-
-#         for size in sizes:
-#             if(float(size) < 0.05):
-#                 explode.append(0.2)
-#             else: 
-#                 explode.append(0.4)
-#             if (i % 2 == 0):
-#                 colors.append('grey')
-#             else:
-#                 colors.append('black')
-#             i += 1
-#         plt.pie(sizes, labels=labels, colors=colors, explode=explode,
-#         autopct='%1.1f%%', startangle=140)
-#         plt.axis('equal')
-#         plt.show()
-#     if(type_ == 'sector'):
-#         print("sector")
+if __name__ == '__main__':
+    try:
+        if len(sys.argv) == 4:
+            print(globals()[sys.argv[1]](sys.argv[2], sys.argv[2]))
+        elif len(sys.argv) == 3:
+            print(globals()[sys.argv[1]](sys.argv[2]))
+        elif len(sys.argv) == 2:
+            if sys.argv[1] == 'refresh':
+                refresh.activate_refresh_key()
+            else:
+                print(globals()[sys.argv[1]]())
+        else:
+            print("ERROR - No valid argument given, please choose one of the following:")
+            calls()
+    except:
+        print("ERROR - Invalid argument given, please choose one of the following:")
+        calls()
