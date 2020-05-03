@@ -1,4 +1,5 @@
 import call
+import refresh
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
@@ -6,6 +7,11 @@ from csv import writer
 import sys
 from datetime import date
 import requests
+
+def calls():
+    arguments = ["get_asset_information", "get_type", "assign_new_type 'ticker' 'type'", 'etc.']
+    for arg in arguments:
+        print(arg)
 
 def get_asset_information():
     call_to_make = 'accounts/' + call.id_ + '/positions'
@@ -44,7 +50,7 @@ def get_type():
     while i < len(symbols):
         symbol = symbols[i]
         price = prices[i]
-        fileName = 'assetType.txt'
+        fileName = './info/assetType.txt'
         accessMode = 'r'
         sector = ''
         with open(fileName, accessMode) as myCSVfile:
@@ -76,7 +82,7 @@ def get_type():
     array = np.array([arrLabels, arrPercentage])
     return array
 
-def plot_(labels, sizes):
+def build_graph(labels, sizes):
     colors = []
     i = 0
     while i < len(labels):
@@ -93,16 +99,16 @@ def plot(type_):
     if(type_ == 'Position'):
         labels = get_asset_information()[0]
         sizes = get_asset_information()[1]
-        plot_(labels, sizes)
+        build_graph(labels, sizes)
     elif(type_ == 'Sector'):
         labels = get_type()[0]
         sizes = get_type()[1]
-        plot_(labels, sizes)
+        build_graph(labels, sizes)
     else:
         print("ERROR")
 
 def assign_new_type(symbol, sector):
-    fileName = 'assetType.txt'   
+    fileName = './info/assetType.txt'   
     to_add = symbol + '=' + sector
     with open(fileName, 'a') as myCSVfile:
         myCSVfile.write(to_add)     
@@ -141,7 +147,7 @@ def add_todays_totals():
     cash = overall_portfolio()[2]
     today = date.today()
     to_add = [today, marketValue, cash]
-    with open('overall_history.csv', 'a') as file_:
+    with open('./info/overall_history.csv', 'a') as file_:
         writer = csv.writer(file_)
         writer.writerow(to_add)
 
@@ -154,32 +160,33 @@ def get_exchange_rate(base):
     USD_CAD = EUR_CAD/EUR_base
     return USD_CAD
 
-try:
-    if sys.argv[1] == 'refresh':
-        call.refresh_()
-except:
-    pass
 
 
-x = get_exchange_rate('USD')
-print (x)
+n = len(sys.argv)
+arg_arr = []
+for i in range(0, n):
+    arg_arr.append(sys.argv[i])
+    
 
-# add_todays_totals()
+# if __name__ == '__main__':
+#     try:
+#         if len(sys.argv) == 4:
+#             print(globals()[sys.argv[1]](sys.argv[2], sys.argv[2]))
+#         elif len(sys.argv) == 3:
+#             print(globals()[sys.argv[1]](sys.argv[2]))
+#         elif len(sys.argv) == 2:
+#             if sys.argv[1] == 'refresh':
+#                 refresh.activate_refresh_key()
+#             else:
+#                 print(globals()[sys.argv[1]]())
+#         else:
+#             print("ERROR - No valid argument given, please choose one of the following:")
+#             calls()
+#     except:
+#         print("ERROR - Invalid argument given, please choose one of the following:")
+#         calls()
 
-# x = ['2020-04-06', '2020-04-07', '2020-04-08', '2020-04-09', '2020-04-10', '2020-04-13']
-# # x = [0, 1, 2, 3, 4, 5]
-# y1 = [13585.65, 14995.65, 15085.65, 17585.65, 17100.65, 18985.65]
-# y2 = [3108.27, 3108.27, 3108.27, 3108.27, 3108.27, 3108.27]
-# y_comb = np.array([y1, y2])
-# y_stack = np.cumsum(y_comb, axis=0)
 
-# print(y_comb)
-# print(y_stack)
-# fig = plt.figure()
-# ax1 = fig.add_subplot(111)
-# ax1.fill_between(x, 0, y_stack[0,:], facecolor="#CC6666", alpha=.7)
-# ax1.fill_between(x, y_stack[1,:], y_stack[0,:], facecolor="#1DACD6", alpha=.7)
-# plt.show()
 
 
 
