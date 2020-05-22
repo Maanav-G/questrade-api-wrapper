@@ -30,3 +30,4 @@ Currently it supports the following functions:
 - Design and implement an aesthetically pleasing UI 
 - Add plotting functions for pie graphs, line graphs, stacked graphs, etc.
 - Host an interactive version on a web app connected to a mock/practice account
+- Support for different account types (currently only supports TFSA)
